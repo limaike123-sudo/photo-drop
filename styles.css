@@ -116,7 +116,7 @@ textarea {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 84px;
+  grid-template-columns: minmax(0, 1fr) 104px;
   gap: 14px;
   align-items: center;
   padding: 20px 0 16px;
@@ -234,29 +234,46 @@ h2 {
 
 .kuromi-charm {
   position: relative;
-  width: 76px;
-  height: 76px;
+  width: 96px;
+  height: 96px;
   display: grid;
   place-items: center;
-  border-radius: 24px;
-  color: #fff;
-  background: var(--ink);
-  box-shadow: 0 14px 26px rgba(58, 41, 77, 0.22);
+  padding: 5px;
+  border-radius: 28px;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, var(--pink), var(--lavender), var(--ink)) border-box;
+  border: 2px solid transparent;
+  box-shadow: 0 18px 34px rgba(58, 41, 77, 0.24);
   isolation: isolate;
+  overflow: visible;
 }
 
 .kuromi-charm::after {
   content: "";
   position: absolute;
-  right: -5px;
-  bottom: 13px;
-  width: 22px;
-  height: 13px;
-  border-radius: 50% 50% 45% 45%;
-  background: var(--pink);
-  box-shadow: -14px 0 0 var(--pink);
-  transform: rotate(-28deg);
-  z-index: -1;
+  right: -8px;
+  bottom: -6px;
+  width: 42px;
+  height: 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8fca, #c49bff);
+  transform: rotate(-18deg);
+  box-shadow: 0 8px 18px rgba(232, 79, 157, 0.28);
+  z-index: 2;
+}
+
+.kuromi-charm img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 22px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.kuromi-charm em {
+  display: none;
 }
 
 .kuromi-charm .ear {
@@ -318,8 +335,8 @@ h2 {
 }
 
 .featured-photo {
+  display: none;
   position: relative;
-  display: grid;
   grid-template-columns: minmax(0, 0.78fr) minmax(180px, 0.42fr);
   gap: 16px;
   align-items: center;
@@ -951,28 +968,22 @@ textarea:focus {
   }
 
   .hero {
-    grid-template-columns: minmax(0, 1fr) 64px;
+    grid-template-columns: minmax(0, 1fr) 78px;
   }
 
   .featured-photo {
-    grid-template-columns: 1fr;
+    display: none;
   }
 
   .kuromi-charm {
-    width: 58px;
-    height: 58px;
-    border-radius: 18px;
+    width: 72px;
+    height: 72px;
+    border-radius: 22px;
+    padding: 4px;
   }
 
-  .kuromi-charm .ear {
-    width: 22px;
-    height: 28px;
-  }
-
-  .kuromi-charm .face {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+  .kuromi-charm img {
+    border-radius: 17px;
   }
 
   .mini-kuromi {
