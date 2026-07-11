@@ -1,22 +1,22 @@
-﻿{
-    "updatedAt":  "2026-07-11T14:09:41",
+{
+    "updatedAt":  "2026-07-11T14:16:29",
     "models":  [
                    {
-                       "name":  "模特 1",
+                       "name":  "model-001",
                        "url":  "local-gallery/models/model-1.jpg"
                    },
                    {
-                       "name":  "模特 2",
+                       "name":  "model-002",
                        "url":  "local-gallery/models/model-2.jpg"
                    },
                    {
-                       "name":  "模特 3",
+                       "name":  "model-003",
                        "url":  "local-gallery/models/model-3.jpg"
                    }
                ],
     "aiGenerated":  [
                         {
-                            "name":  "AI试衣三套 001",
+                            "name":  "ai-tryon-001",
                             "url":  "local-gallery/ai-generated/ai-tryon-001.png"
                         }
                     ]
