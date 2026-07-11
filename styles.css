@@ -319,6 +319,8 @@ h2 {
 
 .queue-panel,
 .desktop-gallery-panel,
+.model-panel,
+.ai-generated-panel,
 .settings-panel,
 .desktop-panel {
   margin-top: 14px;
@@ -410,14 +412,17 @@ h2 {
 }
 
 .desktop-gallery,
-.mobile-uploaded-gallery {
+.mobile-uploaded-gallery,
+.model-gallery,
+.ai-generated-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
   gap: 12px;
 }
 
 .desktop-card,
-.mobile-upload-card {
+.mobile-upload-card,
+.local-card {
   display: grid;
   gap: 8px;
   padding: 9px;
@@ -427,7 +432,8 @@ h2 {
 }
 
 .desktop-card img,
-.mobile-upload-card img {
+.mobile-upload-card img,
+.local-card img {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 7px;
@@ -436,7 +442,8 @@ h2 {
 }
 
 .desktop-card strong,
-.mobile-upload-card strong {
+.mobile-upload-card strong,
+.local-card strong {
   min-width: 0;
   overflow: hidden;
   color: var(--ink);
@@ -446,7 +453,8 @@ h2 {
 }
 
 .desktop-card a,
-.mobile-upload-card a {
+.mobile-upload-card a,
+.local-card a {
   min-height: 34px;
   display: grid;
   place-items: center;
@@ -463,6 +471,15 @@ h2 {
 }
 
 .desktop-empty {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+  background: #fffafd;
+}
+
+.local-empty {
   padding: 20px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -648,12 +665,16 @@ input:focus {
 
   .queue-panel,
   .desktop-gallery-panel,
+  .model-panel,
+  .ai-generated-panel,
   .desktop-panel {
     padding: 14px;
   }
 
   .desktop-gallery,
-  .mobile-uploaded-gallery {
+  .mobile-uploaded-gallery,
+  .model-gallery,
+  .ai-generated-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

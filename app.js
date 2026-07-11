@@ -22,6 +22,10 @@ const elements = {
   refreshDesktopGallery: document.querySelector("#refreshDesktopGalleryButton"),
   mobileUploadedGallery: document.querySelector("#mobileUploadedGallery"),
   refreshMobileUploads: document.querySelector("#refreshMobileUploadsButton"),
+  modelGallery: document.querySelector("#modelGallery"),
+  modelEmpty: document.querySelector("#modelEmpty"),
+  aiGeneratedGallery: document.querySelector("#aiGeneratedGallery"),
+  aiGeneratedEmpty: document.querySelector("#aiGeneratedEmpty"),
 };
 
 function todayFolderName() {
@@ -213,6 +217,7 @@ elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
 loadSettings();
 loadMobileUploads();
 loadDesktopGallery();
+loadLocalGallery();
 
 async function loadMobileUploads() {
   const settings = getSettings();
@@ -325,4 +330,44 @@ async function loadDesktopGallery() {
     elements.desktopEmpty.hidden = false;
     elements.desktopEmpty.textContent = `图片加载失败：${error.message}`;
   }
+}
+
+async function loadLocalGallery() {
+  try {
+    const manifestUrl = new URL("local-gallery/manifest.json", document.baseURI);
+    manifestUrl.searchParams.set("t", Date.now());
+    const response = await fetch(manifestUrl.href, { cache: "no-store" });
+    if (!response.ok) return;
+    const manifest = await response.json();
+    renderLocalCards(elements.modelGallery, elements.modelEmpty, manifest.models || [], "模特");
+    renderLocalCards(elements.aiGeneratedGallery, elements.aiGeneratedEmpty, manifest.aiGenerated || [], "AI试衣图");
+  } catch {
+    elements.modelEmpty.hidden = false;
+    elements.aiGeneratedEmpty.hidden = false;
+  }
+}
+
+function renderLocalCards(container, emptyElement, items, label) {
+  container.innerHTML = "";
+  emptyElement.hidden = items.length > 0;
+  items.forEach((item, index) => {
+    const card = document.createElement("article");
+    card.className = "local-card";
+
+    const image = document.createElement("img");
+    image.src = new URL(item.url, document.baseURI).href;
+    image.alt = item.name || `${label} ${index + 1}`;
+    image.loading = "lazy";
+
+    const name = document.createElement("strong");
+    name.textContent = `${label} ${String(index + 1).padStart(3, "0")}`;
+
+    const link = document.createElement("a");
+    link.href = image.src;
+    link.download = item.name || `${label}-${index + 1}`;
+    link.textContent = "下载";
+
+    card.append(image, name, link);
+    container.appendChild(card);
+  });
 }
