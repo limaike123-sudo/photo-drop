@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="page-sprinkles" aria-hidden="true">
+    <span>♡</span>
+    <span>✦</span>
+    <span>♡</span>
+    <span>✧</span>
+  </div>
   <main class="app">
     <section class="hero" aria-label="小37的财富空间">
       <div class="hero-copy">
@@ -17,11 +23,20 @@
       <div class="kuromi-charm" aria-hidden="true">
         <span class="ear left"></span>
         <span class="ear right"></span>
-        <span class="face">♡</span>
+        <span class="face">
+          <i></i>
+          <b></b>
+          <em>♡</em>
+        </span>
       </div>
     </section>
 
     <section class="upload-zone" id="dropZone" aria-label="图片上传区域">
+      <div class="mini-kuromi" aria-hidden="true">
+        <span class="mini-ear left"></span>
+        <span class="mini-ear right"></span>
+        <span class="mini-face">♡</span>
+      </div>
       <input id="fileInput" class="file-input" type="file" accept="image/*" multiple>
       <label for="fileInput" class="upload-label">
         <span class="upload-icon">+</span>
@@ -48,6 +63,7 @@
           <h2>小麦麦操作的图片</h2>
           <p class="section-note">这里显示电脑端放进来的图片，手机端只能查看和下载。</p>
         </div>
+        <span class="section-badge" aria-hidden="true">Kuromi</span>
       </div>
       <div class="desktop-empty" id="desktopEmpty">电脑端还没有放入图片</div>
       <div class="desktop-gallery" id="desktopGallery"></div>
