@@ -1,0 +1,76 @@
+name: Cleanup old uploads
+
+on:
+  schedule:
+    - cron: "10 19 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find upload folders older than 7 days
+        shell: bash
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+          import re
+
+          uploads = Path("uploads")
+          cutoff = datetime.now(ZoneInfo("Asia/Shanghai")).date() - timedelta(days=7)
+          pattern = re.compile(r"^(\d{4})-(\d{1,2})-(\d{1,2})$")
+          old_paths = []
+
+          if uploads.exists():
+              for folder in uploads.iterdir():
+                  if not folder.is_dir():
+                      continue
+                  match = pattern.match(folder.name)
+                  if not match:
+                      continue
+                  year, month, day = map(int, match.groups())
+                  folder_date = datetime(year, month, day).date()
+                  if folder_date <= cutoff:
+                      old_paths.append(folder.as_posix())
+
+          Path("cleanup-paths.txt").write_text("\n".join(old_paths), encoding="utf-8")
+          print(f"Cutoff date: {cutoff}")
+          print(f"Folders to delete: {len(old_paths)}")
+          for path in old_paths:
+              print(path)
+          PY
+
+      - name: Delete old upload folders
+        shell: bash
+        run: |
+          if [ ! -s cleanup-paths.txt ]; then
+            echo "No old upload folders to delete."
+            exit 0
+          fi
+
+          while IFS= read -r path; do
+            git rm -r -- "$path"
+          done < cleanup-paths.txt
+
+      - name: Commit cleanup
+        shell: bash
+        run: |
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Cleanup uploads older than 7 days"
+          git push

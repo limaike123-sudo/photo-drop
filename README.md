@@ -68,3 +68,9 @@ $env:GITHUB_PHOTO_TOKEN="你的GitHubToken"
 ```
 
 也可以直接双击 `启动-衣服生图自动同步.bat`，窗口不关就会每 60 秒自动检查一次今日上传图片。
+
+## GitHub 自动清理
+
+仓库里的 `.github/workflows/cleanup-uploads.yml` 会每天按中国时间自动检查 `uploads` 目录。超过 7 天的日期文件夹会从 GitHub 删除，例如 `uploads/2026-7-11` 会在 7 天后自动清理。
+
+这个清理只影响 GitHub 仓库里的上传文件，不会删除电脑本地 `D:\Desktop\codex\衣服生图\日期图片` 里的文件。
