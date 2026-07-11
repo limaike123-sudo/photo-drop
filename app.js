@@ -71,14 +71,14 @@ const xiaoshanWeather = {
   longitude: 120.26,
 };
 
-async function loadWeather() {
+async function loadWeatherByCoords({ name, latitude, longitude, loadingText }) {
   elements.weatherButton.disabled = true;
-  elements.weatherButton.textContent = "萧山天气加载中";
+  elements.weatherButton.textContent = loadingText;
 
   try {
     const url = new URL("https://api.open-meteo.com/v1/forecast");
-    url.searchParams.set("latitude", xiaoshanWeather.latitude);
-    url.searchParams.set("longitude", xiaoshanWeather.longitude);
+    url.searchParams.set("latitude", latitude);
+    url.searchParams.set("longitude", longitude);
     url.searchParams.set("current", "temperature_2m,weather_code");
     url.searchParams.set("timezone", "Asia/Shanghai");
     const response = await fetch(url.href);
@@ -88,13 +88,45 @@ async function loadWeather() {
     const weatherText = weatherTextByCode[current.weather_code] || "天气";
     const temperature = Math.round(Number(current.temperature_2m));
     elements.weatherButton.textContent = Number.isFinite(temperature)
-      ? `${xiaoshanWeather.name} · ${weatherText} · ${temperature}°C`
-      : `${xiaoshanWeather.name} · ${weatherText}`;
+      ? `${name} · ${weatherText} · ${temperature}°C`
+      : `${name} · ${weatherText}`;
     elements.weatherButton.disabled = false;
   } catch (error) {
     elements.weatherButton.textContent = error.message || "天气加载失败";
     elements.weatherButton.disabled = false;
   }
+}
+
+function loadXiaoshanWeather() {
+  return loadWeatherByCoords({
+    ...xiaoshanWeather,
+    loadingText: "萧山天气加载中",
+  });
+}
+
+function loadCurrentWeather() {
+  if (!navigator.geolocation) {
+    loadXiaoshanWeather();
+    return;
+  }
+
+  elements.weatherButton.disabled = true;
+  elements.weatherButton.textContent = "定位天气加载中";
+
+  navigator.geolocation.getCurrentPosition((position) => {
+    loadWeatherByCoords({
+      name: "当前位置",
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      loadingText: "定位天气加载中",
+    });
+  }, () => {
+    loadXiaoshanWeather();
+  }, {
+    enableHighAccuracy: false,
+    maximumAge: 10 * 60 * 1000,
+    timeout: 10000,
+  });
 }
 
 function loadSettings() {
@@ -324,10 +356,10 @@ elements.input.addEventListener("change", (event) => addFiles(event.target.files
 elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfer.files));
 elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
 elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
-elements.weatherButton.addEventListener("click", loadWeather);
+elements.weatherButton.addEventListener("click", loadCurrentWeather);
 window.addEventListener("resize", refreshGalleryLimits);
 renderTodayInfo();
-loadWeather();
+loadXiaoshanWeather();
 loadSettings();
 loadMobileUploads();
 loadDesktopGallery();
