@@ -24,6 +24,9 @@ const elements = {
   refreshMobileUploads: document.querySelector("#refreshMobileUploadsButton"),
   modelGallery: document.querySelector("#modelGallery"),
   modelEmpty: document.querySelector("#modelEmpty"),
+  modelFileInput: document.querySelector("#modelFileInput"),
+  uploadModelButton: document.querySelector("#uploadModelButton"),
+  modelUploadStatus: document.querySelector("#modelUploadStatus"),
   aiGeneratedGallery: document.querySelector("#aiGeneratedGallery"),
   aiGeneratedEmpty: document.querySelector("#aiGeneratedEmpty"),
   todayInfo: document.querySelector("#todayInfo"),
@@ -529,6 +532,8 @@ async function uploadQueue() {
 elements.save.addEventListener("click", saveSettings);
 elements.clear.addEventListener("click", clearSettings);
 elements.upload.addEventListener("click", uploadQueue);
+elements.uploadModelButton.addEventListener("click", () => elements.modelFileInput.click());
+elements.modelFileInput.addEventListener("change", (event) => uploadModelFiles(event.target.files));
 elements.input.addEventListener("change", (event) => addFiles(event.target.files));
 ["token", "owner", "repo", "branch", "path"].forEach((key) => {
   elements[key].addEventListener("input", updateTodayNote);
@@ -741,6 +746,99 @@ async function loadLocalGallery() {
   } catch {
     elements.modelEmpty.hidden = false;
     elements.aiGeneratedEmpty.hidden = false;
+  }
+}
+
+async function fetchRepoContent(settings, path) {
+  const encodedPath = encodeURIComponent(path).replace(/%2F/g, "/");
+  const url = `https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${encodedPath}?ref=${encodeURIComponent(settings.branch)}`;
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${settings.token}`,
+      Accept: "application/vnd.github+json",
+    },
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(result.message || `GitHub 返回 ${response.status}`);
+  }
+  return result;
+}
+
+async function putRepoContent(settings, path, content, message, sha) {
+  const encodedPath = encodeURIComponent(path).replace(/%2F/g, "/");
+  const body = {
+    message,
+    branch: settings.branch,
+    content,
+  };
+  if (sha) body.sha = sha;
+
+  const response = await fetch(`https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${encodedPath}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${settings.token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(result.message || `GitHub 返回 ${response.status}`);
+  }
+  return result;
+}
+
+function modelUploadName(file, index) {
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "");
+  const extension = (file.name.match(/\.[^.]+$/)?.[0] || ".jpg").toLowerCase();
+  return `model-${stamp}-${String(index + 1).padStart(2, "0")}${extension}`;
+}
+
+async function uploadModelFiles(files) {
+  const selectedFiles = [...files].filter((file) => file.type.startsWith("image/"));
+  if (!selectedFiles.length) return;
+
+  saveSettings();
+  const settings = getSettings();
+  if (!settings.token || !settings.owner || !settings.repo) {
+    alert("请先展开上传设置，填写 GitHub Token、仓库拥有者和仓库名。");
+    return;
+  }
+
+  elements.uploadModelButton.disabled = true;
+  elements.modelUploadStatus.textContent = `正在上传 ${selectedFiles.length} 张模特图`;
+
+  try {
+    const manifestPath = "local-gallery/manifest.json";
+    const manifestDocument = await fetchRepoContent(settings, manifestPath);
+    const manifest = JSON.parse(base64ToText(manifestDocument.content || ""));
+    manifest.models = Array.isArray(manifest.models) ? manifest.models : [];
+    manifest.aiGenerated = Array.isArray(manifest.aiGenerated) ? manifest.aiGenerated : [];
+
+    for (const [index, file] of selectedFiles.entries()) {
+      const uploadName = modelUploadName(file, index);
+      const uploadPath = `local-gallery/models/${uploadName}`;
+      elements.modelUploadStatus.textContent = `正在上传 ${index + 1}/${selectedFiles.length}`;
+      await putRepoContent(settings, uploadPath, await readFileAsBase64(file), `Upload model ${uploadName}`);
+      manifest.models.push({
+        name: uploadName.replace(/\.[^.]+$/, ""),
+        url: uploadPath,
+      });
+    }
+
+    manifest.updatedAt = new Date().toISOString().replace(/\.\d{3}Z$/, "");
+    const manifestJson = JSON.stringify(manifest, null, 2);
+    await putRepoContent(settings, manifestPath, textToBase64(manifestJson), "Update model gallery", manifestDocument.sha);
+    elements.modelUploadStatus.textContent = "模特图已上传，正在刷新";
+    await loadLocalGallery();
+    elements.modelUploadStatus.textContent = "模特图已上传；电脑端运行同步脚本后会下载到 D:\\Desktop\\codex\\模特";
+  } catch (error) {
+    elements.modelUploadStatus.textContent = `上传失败：${error.message}`;
+  } finally {
+    elements.uploadModelButton.disabled = false;
+    elements.modelFileInput.value = "";
   }
 }
 

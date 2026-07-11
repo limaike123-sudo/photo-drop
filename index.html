@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>小37的财富空间</title>
-  <link rel="stylesheet" href="styles.css?v=20260711-16">
+  <link rel="stylesheet" href="styles.css?v=20260711-17">
 </head>
 <body>
   <div class="page-sprinkles" aria-hidden="true">
@@ -113,6 +113,9 @@
         </div>
       </div>
       <div class="local-empty" id="modelEmpty">还没有同步模特图片</div>
+      <button class="text-button subtle model-upload-button" id="uploadModelButton" type="button">上传模特</button>
+      <input id="modelFileInput" class="file-input" type="file" accept="image/*" multiple>
+      <p class="model-upload-status" id="modelUploadStatus"></p>
       <div class="model-gallery" id="modelGallery"></div>
     </section>
 
@@ -184,6 +187,6 @@
     </article>
   </template>
 
-  <script src="app.js?v=20260711-16"></script>
+  <script src="app.js?v=20260711-17"></script>
 </body>
 </html>

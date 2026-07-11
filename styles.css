@@ -749,6 +749,19 @@ h2 {
   text-decoration: none;
 }
 
+.model-upload-button {
+  justify-self: start;
+  margin-bottom: 8px;
+}
+
+.model-upload-status {
+  min-height: 18px;
+  margin: -2px 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .mobile-uploaded-gallery {
   margin-top: 12px;
 }
