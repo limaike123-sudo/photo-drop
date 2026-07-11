@@ -149,6 +149,52 @@ function formatBytes(bytes) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
+function galleryLimit() {
+  return window.matchMedia("(max-width: 680px)").matches ? 4 : 6;
+}
+
+function applyGalleryLimit(container) {
+  const cards = [...container.children];
+  const limit = galleryLimit();
+  const needsToggle = cards.length > limit;
+  let toggle = container.nextElementSibling;
+
+  if (!toggle || !toggle.classList.contains("gallery-toggle")) {
+    toggle = document.createElement("button");
+    toggle.className = "gallery-toggle";
+    toggle.type = "button";
+    container.insertAdjacentElement("afterend", toggle);
+  }
+
+  if (!needsToggle) {
+    toggle.hidden = true;
+    cards.forEach((card) => {
+      card.hidden = false;
+    });
+    return;
+  }
+
+  toggle.hidden = false;
+  const expanded = container.dataset.expanded === "true";
+  cards.forEach((card, index) => {
+    card.hidden = !expanded && index >= limit;
+  });
+  toggle.textContent = expanded ? "收起" : `展开全部 ${cards.length} 张`;
+  toggle.onclick = () => {
+    container.dataset.expanded = expanded ? "false" : "true";
+    applyGalleryLimit(container);
+  };
+}
+
+function refreshGalleryLimits() {
+  [
+    elements.mobileUploadedGallery,
+    elements.desktopGallery,
+    elements.modelGallery,
+    elements.aiGeneratedGallery,
+  ].forEach((container) => applyGalleryLimit(container));
+}
+
 function safeName(name) {
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\..+/, "");
   const cleaned = name.normalize("NFKD").replace(/[^\w.\-]+/g, "_").replace(/^_+|_+$/g, "");
@@ -287,6 +333,7 @@ elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfe
 elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
 elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
 elements.weatherButton.addEventListener("click", loadWeather);
+window.addEventListener("resize", refreshGalleryLimits);
 renderTodayInfo();
 loadSettings();
 loadMobileUploads();
@@ -299,6 +346,7 @@ async function loadMobileUploads() {
   const apiPath = encodeURIComponent(folder).replace(/%2F/g, "/");
   const apiUrl = `https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${apiPath}?ref=${encodeURIComponent(settings.branch)}`;
   elements.mobileUploadedGallery.innerHTML = "";
+  elements.mobileUploadedGallery.dataset.expanded = "false";
 
   try {
     const response = await fetch(`${apiUrl}&t=${Date.now()}`, {
@@ -310,6 +358,7 @@ async function loadMobileUploads() {
         elements.empty.hidden = false;
         elements.empty.textContent = "今天还没有手机端上传图片";
       }
+      applyGalleryLimit(elements.mobileUploadedGallery);
       return;
     }
     if (!response.ok) {
@@ -348,6 +397,7 @@ async function loadMobileUploads() {
         card.append(image, name, link);
         elements.mobileUploadedGallery.appendChild(card);
       });
+    applyGalleryLimit(elements.mobileUploadedGallery);
   } catch (error) {
     if (!queue.length) {
       elements.empty.hidden = false;
@@ -360,6 +410,7 @@ async function loadDesktopGallery() {
   elements.desktopEmpty.hidden = false;
   elements.desktopEmpty.textContent = "正在加载小麦麦操作的图片";
   elements.desktopGallery.innerHTML = "";
+  elements.desktopGallery.dataset.expanded = "false";
   try {
     const manifestUrl = new URL("desktop-gallery/manifest.json", document.baseURI);
     manifestUrl.searchParams.set("t", Date.now());
@@ -372,6 +423,7 @@ async function loadDesktopGallery() {
     const items = Array.isArray(manifest.items) ? manifest.items : [];
     if (!items.length) {
       elements.desktopEmpty.textContent = "电脑端还没有放入图片";
+      applyGalleryLimit(elements.desktopGallery);
       return;
     }
     elements.desktopEmpty.hidden = items.length > 0;
@@ -400,6 +452,7 @@ async function loadDesktopGallery() {
       card.append(image, name, link);
       elements.desktopGallery.appendChild(card);
     });
+    applyGalleryLimit(elements.desktopGallery);
   } catch (error) {
     elements.desktopEmpty.hidden = false;
     elements.desktopEmpty.textContent = `图片加载失败：${error.message}`;
@@ -423,6 +476,7 @@ async function loadLocalGallery() {
 
 function renderLocalCards(container, emptyElement, items, label) {
   container.innerHTML = "";
+  container.dataset.expanded = "false";
   emptyElement.hidden = items.length > 0;
   items.forEach((item, index) => {
     const card = document.createElement("article");
@@ -444,4 +498,5 @@ function renderLocalCards(container, emptyElement, items, label) {
     card.append(image, name, link);
     container.appendChild(card);
   });
+  applyGalleryLimit(container);
 }

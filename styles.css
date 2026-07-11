@@ -504,6 +504,22 @@ h2 {
   margin-top: 12px;
 }
 
+.gallery-toggle {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--pink-strong);
+  background: #fff0f8;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.gallery-toggle:active {
+  transform: translateY(1px);
+}
+
 .desktop-empty {
   padding: 20px;
   border: 1px solid var(--line);
