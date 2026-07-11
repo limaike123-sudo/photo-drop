@@ -1,49 +1,58 @@
 {
-    "updatedAt":  "2026-07-11T12:29:20",
+    "updatedAt":  "2026-07-11T13:02:13",
     "items":  [
                   {
-                      "name":  "模特-3-3.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-3-3.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-3-2.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-3-2.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-3-1.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-3-1.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-2-3.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-2-3.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-2-2.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-2-2.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-2-1.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-2-1.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-1-3.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-1-3.png",
+                      "name":  "模特-1-1.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-001.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-001.png",
                       "date":  "2026-7-11"
                   },
                   {
                       "name":  "模特-1-2.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-1-2.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-002.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-002.png",
                       "date":  "2026-7-11"
                   },
                   {
-                      "name":  "模特-1-1.png",
-                      "url":  "desktop-gallery/2026-7-11/%E6%A8%A1%E7%89%B9-1-1.png",
+                      "name":  "模特-1-3.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-003.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-003.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-2-1.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-004.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-004.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-2-2.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-005.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-005.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-2-3.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-006.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-006.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-3-1.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-007.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-007.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-3-2.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-008.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-008.png",
+                      "date":  "2026-7-11"
+                  },
+                  {
+                      "name":  "模特-3-3.png",
+                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-009.jpg",
+                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-009.png",
                       "date":  "2026-7-11"
                   }
               ]

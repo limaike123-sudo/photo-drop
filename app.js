@@ -210,13 +210,16 @@ async function loadDesktopGallery() {
     }
     elements.desktopEmpty.hidden = items.length > 0;
 
-    items.forEach((item) => {
-      const displayName = decodeURIComponent(String(item.url).split("/").pop() || item.name || "图片");
+    items.forEach((item, index) => {
+      const thumbUrl = item.thumbUrl || item.url;
+      const downloadUrl = item.downloadUrl || item.url;
+      const safeIndexName = `小麦麦图片 ${String(index + 1).padStart(3, "0")}`;
+      const displayName = String(downloadUrl).includes("xiaomaimai-") ? safeIndexName : (item.name || decodeURIComponent(String(downloadUrl).split("/").pop() || "图片"));
       const card = document.createElement("article");
       card.className = "desktop-card";
 
       const image = document.createElement("img");
-      image.src = new URL(item.url, document.baseURI).href;
+      image.src = new URL(thumbUrl, document.baseURI).href;
       image.alt = displayName;
       image.loading = "lazy";
 
@@ -224,9 +227,9 @@ async function loadDesktopGallery() {
       name.textContent = displayName;
 
       const link = document.createElement("a");
-      link.href = image.src;
+      link.href = new URL(downloadUrl, document.baseURI).href;
       link.download = displayName;
-      link.textContent = "下载到手机";
+      link.textContent = "下载原图";
 
       card.append(image, name, link);
       elements.desktopGallery.appendChild(card);
