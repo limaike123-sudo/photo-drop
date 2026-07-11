@@ -25,9 +25,10 @@ $items = Get-ChildItem -LiteralPath $galleryPath -Recurse -File | Where-Object {
   $extensions -contains $_.Extension.ToLowerInvariant()
 } | Sort-Object LastWriteTime -Descending | ForEach-Object {
   $relative = $_.FullName.Substring($galleryPath.Length + 1).Replace("\", "/")
+  $encodedRelative = ($relative -split "/" | ForEach-Object { [uri]::EscapeDataString($_) }) -join "/"
   [pscustomobject]@{
     name = $_.Name
-    url = "desktop-gallery/$relative"
+    url = "desktop-gallery/$encodedRelative"
     date = Split-Path -Leaf (Split-Path -Parent $_.FullName)
   }
 }
@@ -37,7 +38,9 @@ $manifest = [pscustomobject]@{
   items = @($items)
 }
 
-$manifest | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $galleryPath "manifest.json") -Encoding UTF8
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+$manifestJson = $manifest | ConvertTo-Json -Depth 4
+[System.IO.File]::WriteAllText((Join-Path $galleryPath "manifest.json"), $manifestJson, $utf8NoBom)
 
 Write-Host "已更新：小麦麦操作的图片"
 Write-Host "电脑端来源文件夹：$SourcePath"

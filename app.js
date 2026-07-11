@@ -198,20 +198,21 @@ async function loadDesktopGallery() {
     elements.desktopGallery.innerHTML = "";
 
     items.forEach((item) => {
+      const displayName = decodeURIComponent(String(item.url).split("/").pop() || item.name || "图片");
       const card = document.createElement("article");
       card.className = "desktop-card";
 
       const image = document.createElement("img");
       image.src = item.url;
-      image.alt = item.name;
+      image.alt = displayName;
       image.loading = "lazy";
 
       const name = document.createElement("strong");
-      name.textContent = item.name;
+      name.textContent = displayName;
 
       const link = document.createElement("a");
       link.href = item.url;
-      link.download = item.name;
+      link.download = displayName;
       link.textContent = "下载到手机";
 
       card.append(image, name, link);
