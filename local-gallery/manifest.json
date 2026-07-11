@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-11T13:03:55",
+  "updatedAt": "2026-07-11T21:12:00",
   "models": [
     {
       "name": "model-001",
@@ -19,6 +19,26 @@
     }
   ],
   "aiGenerated": [
+    {
+      "name": "ai-model-001",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-001.png"
+    },
+    {
+      "name": "ai-model-002",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-002.png"
+    },
+    {
+      "name": "ai-model-003",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-003.png"
+    },
+    {
+      "name": "ai-model-004",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-004.png"
+    },
+    {
+      "name": "ai-model-005",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-005.png"
+    },
     {
       "name": "ai-tryon-001",
       "url": "local-gallery/ai-generated/ai-tryon-001.png"
