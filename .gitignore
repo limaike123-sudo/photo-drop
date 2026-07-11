@@ -1,0 +1,3 @@
+DesktopUploads/*
+!DesktopUploads/.gitkeep
+desktop-sync-config.json

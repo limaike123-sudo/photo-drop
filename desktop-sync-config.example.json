@@ -1,0 +1,8 @@
+{
+  "owner": "你的GitHub用户名",
+  "repo": "photo-drop",
+  "branch": "main",
+  "remotePath": "uploads",
+  "downloadPath": "D:\\Desktop\\codex\\37手机端",
+  "pollSeconds": 30
+}

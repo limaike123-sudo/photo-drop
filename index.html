@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小37的财富空间</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="hero" aria-label="小37的财富空间">
+      <div class="hero-copy">
+        <p class="eyebrow">Sweet Photo Vault</p>
+        <h1>小37的财富空间</h1>
+        <p class="hero-note">今天上传的图片会自动放进当天日期文件夹。</p>
+      </div>
+      <div class="kuromi-charm" aria-hidden="true">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="face">♡</span>
+      </div>
+    </section>
+
+    <section class="upload-zone" id="dropZone" aria-label="图片上传区域">
+      <input id="fileInput" class="file-input" type="file" accept="image/*" multiple>
+      <label for="fileInput" class="upload-label">
+        <span class="upload-icon">+</span>
+        <span class="upload-title">上传图片</span>
+        <span class="upload-subtitle">点这里选择照片，或把图片拖进来</span>
+      </label>
+    </section>
+
+    <section class="panel queue-panel" aria-label="上传队列">
+      <div class="section-heading">
+        <div>
+          <h2>今日图片</h2>
+          <p class="section-note" id="todayFolderNote"></p>
+        </div>
+        <button class="text-button" id="uploadButton" type="button">开始上传</button>
+      </div>
+      <div class="empty-state" id="emptyState">还没有选择图片</div>
+      <div class="queue" id="queue"></div>
+    </section>
+
+    <section class="panel desktop-gallery-panel" aria-label="小麦麦操作的图片">
+      <div class="section-heading">
+        <div>
+          <h2>小麦麦操作的图片</h2>
+          <p class="section-note">这里显示电脑端放进来的图片，手机端只能查看和下载。</p>
+        </div>
+      </div>
+      <div class="desktop-empty" id="desktopEmpty">电脑端还没有放入图片</div>
+      <div class="desktop-gallery" id="desktopGallery"></div>
+    </section>
+
+    <details class="panel settings-panel">
+      <summary>
+        <span>上传设置</span>
+        <small>平时可以收起来</small>
+      </summary>
+
+      <div class="settings-body">
+        <div class="section-heading compact">
+          <h2>GitHub 设置</h2>
+          <button class="text-button subtle" id="clearSettingsButton" type="button">清空</button>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            <span>GitHub Token</span>
+            <input id="tokenInput" type="password" autocomplete="off" placeholder="ghp_...">
+          </label>
+          <label>
+            <span>仓库拥有者</span>
+            <input id="ownerInput" type="text" autocomplete="username" placeholder="你的 GitHub 用户名">
+          </label>
+          <label>
+            <span>仓库名</span>
+            <input id="repoInput" type="text" placeholder="photo-drop">
+          </label>
+          <label>
+            <span>分支</span>
+            <input id="branchInput" type="text" value="main">
+          </label>
+          <label>
+            <span>保存根目录</span>
+            <input id="pathInput" type="text" value="uploads">
+          </label>
+        </div>
+
+        <button class="primary-button" id="saveSettingsButton" type="button">保存设置</button>
+      </div>
+    </details>
+
+    <section class="panel desktop-panel" aria-label="电脑端模块预留">
+      <h2>电脑端模块</h2>
+      <p>电脑端把图片放进 <strong>DesktopUploads</strong> 文件夹后运行整理脚本，上面的“小麦麦操作的图片”就会显示。</p>
+    </section>
+  </main>
+
+  <template id="queueItemTemplate">
+    <article class="queue-item">
+      <img class="preview" alt="">
+      <div class="item-copy">
+        <strong class="file-name"></strong>
+        <span class="file-meta"></span>
+        <progress class="progress" value="0" max="100"></progress>
+        <span class="item-status">等待上传</span>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
