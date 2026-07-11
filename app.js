@@ -65,44 +65,36 @@ const weatherTextByCode = {
   99: "强雷雨",
 };
 
+const xiaoshanWeather = {
+  name: "杭州萧山",
+  latitude: 30.17,
+  longitude: 120.26,
+};
+
 async function loadWeather() {
-  if (!navigator.geolocation) {
-    elements.weatherButton.textContent = "当前浏览器不支持天气";
-    return;
-  }
-
   elements.weatherButton.disabled = true;
-  elements.weatherButton.textContent = "获取天气中";
+  elements.weatherButton.textContent = "萧山天气加载中";
 
-  navigator.geolocation.getCurrentPosition(async (position) => {
-    try {
-      const { latitude, longitude } = position.coords;
-      const url = new URL("https://api.open-meteo.com/v1/forecast");
-      url.searchParams.set("latitude", latitude);
-      url.searchParams.set("longitude", longitude);
-      url.searchParams.set("current", "temperature_2m,weather_code");
-      url.searchParams.set("timezone", "auto");
-      const response = await fetch(url.href);
-      if (!response.ok) throw new Error("天气加载失败");
-      const data = await response.json();
-      const current = data.current || {};
-      const weatherText = weatherTextByCode[current.weather_code] || "天气";
-      const temperature = Math.round(Number(current.temperature_2m));
-      elements.weatherButton.textContent = Number.isFinite(temperature)
-        ? `${weatherText} · ${temperature}°C`
-        : weatherText;
-    } catch (error) {
-      elements.weatherButton.textContent = error.message || "天气加载失败";
-      elements.weatherButton.disabled = false;
-    }
-  }, () => {
-    elements.weatherButton.textContent = "允许定位后显示天气";
+  try {
+    const url = new URL("https://api.open-meteo.com/v1/forecast");
+    url.searchParams.set("latitude", xiaoshanWeather.latitude);
+    url.searchParams.set("longitude", xiaoshanWeather.longitude);
+    url.searchParams.set("current", "temperature_2m,weather_code");
+    url.searchParams.set("timezone", "Asia/Shanghai");
+    const response = await fetch(url.href);
+    if (!response.ok) throw new Error("天气加载失败");
+    const data = await response.json();
+    const current = data.current || {};
+    const weatherText = weatherTextByCode[current.weather_code] || "天气";
+    const temperature = Math.round(Number(current.temperature_2m));
+    elements.weatherButton.textContent = Number.isFinite(temperature)
+      ? `${xiaoshanWeather.name} · ${weatherText} · ${temperature}°C`
+      : `${xiaoshanWeather.name} · ${weatherText}`;
     elements.weatherButton.disabled = false;
-  }, {
-    enableHighAccuracy: false,
-    maximumAge: 10 * 60 * 1000,
-    timeout: 10000,
-  });
+  } catch (error) {
+    elements.weatherButton.textContent = error.message || "天气加载失败";
+    elements.weatherButton.disabled = false;
+  }
 }
 
 function loadSettings() {
@@ -335,6 +327,7 @@ elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
 elements.weatherButton.addEventListener("click", loadWeather);
 window.addEventListener("resize", refreshGalleryLimits);
 renderTodayInfo();
+loadWeather();
 loadSettings();
 loadMobileUploads();
 loadDesktopGallery();
