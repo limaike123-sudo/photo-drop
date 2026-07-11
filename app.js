@@ -365,13 +365,16 @@ async function sendMessage() {
   }
 }
 
-function galleryLimit() {
+function galleryLimit(container) {
+  if (container === elements.mobileUploadedGallery) {
+    return 10;
+  }
   return window.matchMedia("(max-width: 680px)").matches ? 4 : 6;
 }
 
 function applyGalleryLimit(container) {
   const cards = [...container.children];
-  const limit = galleryLimit();
+  const limit = galleryLimit(container);
   const needsToggle = cards.length > limit;
   let toggle = container.nextElementSibling;
 

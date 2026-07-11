@@ -313,6 +313,62 @@ h2 {
   font-size: 15px;
 }
 
+.featured-photo {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(180px, 0.42fr);
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(255, 143, 202, 0.22), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 240, 248, 0.92));
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.featured-photo::after {
+  content: "♡";
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  color: rgba(232, 79, 157, 0.18);
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.featured-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.featured-copy h2 {
+  font-size: clamp(22px, 5vw, 34px);
+  color: var(--ink);
+}
+
+.featured-copy p:last-child {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.featured-photo figure {
+  margin: 0;
+}
+
+.featured-photo img {
+  width: 100%;
+  max-height: 260px;
+  display: block;
+  border: 1px solid rgba(232, 79, 157, 0.18);
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 16px 28px rgba(54, 32, 77, 0.16);
+}
+
 .panel,
 .upload-zone {
   position: relative;
@@ -890,6 +946,14 @@ textarea:focus {
 
   .hero {
     grid-template-columns: minmax(0, 1fr) 64px;
+  }
+
+  .featured-photo {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-photo img {
+    max-height: 220px;
   }
 
   .kuromi-charm {
