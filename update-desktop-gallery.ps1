@@ -12,6 +12,8 @@ $thumbTargetPath = Join-Path (Join-Path $galleryPath "thumbs") $today
 New-Item -ItemType Directory -Force -Path $SourcePath | Out-Null
 New-Item -ItemType Directory -Force -Path $sourceTargetPath | Out-Null
 New-Item -ItemType Directory -Force -Path $thumbTargetPath | Out-Null
+Get-ChildItem -LiteralPath $sourceTargetPath -File -ErrorAction SilentlyContinue | Remove-Item -Force
+Get-ChildItem -LiteralPath $thumbTargetPath -File -ErrorAction SilentlyContinue | Remove-Item -Force
 
 $extensions = @(".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".tif", ".tiff", ".heic")
 $sourceFiles = Get-ChildItem -LiteralPath $SourcePath -File | Where-Object {

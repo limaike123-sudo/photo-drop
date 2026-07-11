@@ -668,12 +668,16 @@ async function loadDesktopGallery() {
       const name = document.createElement("strong");
       name.textContent = displayName;
 
+      const date = document.createElement("span");
+      date.className = "card-date";
+      date.textContent = item.date ? `日期：${item.date}` : "";
+
       const link = document.createElement("a");
       link.href = new URL(downloadUrl, document.baseURI).href;
       link.download = displayName;
       link.textContent = "下载原图";
 
-      card.append(image, name, link);
+      card.append(image, name, date, link);
       elements.desktopGallery.appendChild(card);
     });
     applyGalleryLimit(elements.desktopGallery);

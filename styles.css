@@ -673,6 +673,13 @@ h2 {
   white-space: nowrap;
 }
 
+.desktop-card .card-date {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
 .desktop-card a,
 .mobile-upload-card a,
 .local-card a {

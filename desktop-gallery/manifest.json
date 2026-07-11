@@ -1,5 +1,5 @@
 {
-    "updatedAt":  "2026-07-11T13:02:13",
+    "updatedAt":  "2026-07-11T18:21:02",
     "items":  [
                   {
                       "name":  "模特-1-1.png",
@@ -35,24 +35,6 @@
                       "name":  "模特-2-3.png",
                       "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-006.jpg",
                       "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-006.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-3-1.png",
-                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-007.jpg",
-                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-007.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-3-2.png",
-                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-008.jpg",
-                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-008.png",
-                      "date":  "2026-7-11"
-                  },
-                  {
-                      "name":  "模特-3-3.png",
-                      "thumbUrl":  "desktop-gallery/thumbs/2026-7-11/xiaomaimai-009.jpg",
-                      "downloadUrl":  "desktop-gallery/source/2026-7-11/xiaomaimai-009.png",
                       "date":  "2026-7-11"
                   }
               ]
