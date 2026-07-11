@@ -350,22 +350,17 @@ h2 {
   color: var(--ink);
 }
 
-.featured-copy p:last-child {
-  color: var(--muted);
-  line-height: 1.5;
-}
-
 .featured-photo figure {
   margin: 0;
 }
 
 .featured-photo img {
   width: 100%;
-  max-height: 260px;
+  height: auto;
   display: block;
   border: 1px solid rgba(232, 79, 157, 0.18);
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
   box-shadow: 0 16px 28px rgba(54, 32, 77, 0.16);
 }
 
@@ -950,10 +945,6 @@ textarea:focus {
 
   .featured-photo {
     grid-template-columns: 1fr;
-  }
-
-  .featured-photo img {
-    max-height: 220px;
   }
 
   .kuromi-charm {
