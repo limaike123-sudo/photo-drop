@@ -18,6 +18,7 @@ const elements = {
   todayFolderNote: document.querySelector("#todayFolderNote"),
   desktopGallery: document.querySelector("#desktopGallery"),
   desktopEmpty: document.querySelector("#desktopEmpty"),
+  refreshDesktopGallery: document.querySelector("#refreshDesktopGalleryButton"),
 };
 
 function todayFolderName() {
@@ -185,17 +186,29 @@ elements.input.addEventListener("change", (event) => addFiles(event.target.files
 });
 
 elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfer.files));
+elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
 loadSettings();
 loadDesktopGallery();
 
 async function loadDesktopGallery() {
+  elements.desktopEmpty.hidden = false;
+  elements.desktopEmpty.textContent = "正在加载小麦麦操作的图片";
+  elements.desktopGallery.innerHTML = "";
   try {
-    const response = await fetch(`desktop-gallery/manifest.json?t=${Date.now()}`);
-    if (!response.ok) return;
+    const manifestUrl = new URL("desktop-gallery/manifest.json", document.baseURI);
+    manifestUrl.searchParams.set("t", Date.now());
+    const response = await fetch(manifestUrl.href, { cache: "no-store" });
+    if (!response.ok) {
+      elements.desktopEmpty.textContent = "暂时没有加载到电脑端图片";
+      return;
+    }
     const manifest = await response.json();
     const items = Array.isArray(manifest.items) ? manifest.items : [];
+    if (!items.length) {
+      elements.desktopEmpty.textContent = "电脑端还没有放入图片";
+      return;
+    }
     elements.desktopEmpty.hidden = items.length > 0;
-    elements.desktopGallery.innerHTML = "";
 
     items.forEach((item) => {
       const displayName = decodeURIComponent(String(item.url).split("/").pop() || item.name || "图片");
@@ -203,7 +216,7 @@ async function loadDesktopGallery() {
       card.className = "desktop-card";
 
       const image = document.createElement("img");
-      image.src = item.url;
+      image.src = new URL(item.url, document.baseURI).href;
       image.alt = displayName;
       image.loading = "lazy";
 
@@ -211,14 +224,15 @@ async function loadDesktopGallery() {
       name.textContent = displayName;
 
       const link = document.createElement("a");
-      link.href = item.url;
+      link.href = image.src;
       link.download = displayName;
       link.textContent = "下载到手机";
 
       card.append(image, name, link);
       elements.desktopGallery.appendChild(card);
     });
-  } catch {
+  } catch (error) {
     elements.desktopEmpty.hidden = false;
+    elements.desktopEmpty.textContent = `图片加载失败：${error.message}`;
   }
 }
