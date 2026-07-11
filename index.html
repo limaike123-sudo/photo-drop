@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>小37的财富空间</title>
-  <link rel="stylesheet" href="styles.css?v=20260711-8">
+  <link rel="stylesheet" href="styles.css?v=20260711-9">
 </head>
 <body>
   <div class="page-sprinkles" aria-hidden="true">
@@ -33,6 +33,23 @@
           <em>♡</em>
         </span>
       </div>
+    </section>
+
+    <section class="panel message-panel" aria-label="留言记录">
+      <div class="section-heading">
+        <div>
+          <h2>留言记录</h2>
+          <p class="section-note">手机端可以在这里记录谁说了什么，后面会带上时间。</p>
+        </div>
+        <button class="text-button subtle" id="refreshMessagesButton" type="button">刷新</button>
+      </div>
+      <div class="message-form">
+        <input id="messageAuthorInput" type="text" autocomplete="nickname" placeholder="谁说的">
+        <textarea id="messageTextInput" rows="3" placeholder="写点什么..."></textarea>
+        <button class="text-button" id="sendMessageButton" type="button">发送</button>
+      </div>
+      <p class="message-status" id="messageStatus"></p>
+      <div class="message-list" id="messageList"></div>
     </section>
 
     <section class="upload-zone" id="dropZone" aria-label="图片上传区域">
@@ -156,6 +173,6 @@
     </article>
   </template>
 
-  <script src="app.js?v=20260711-8"></script>
+  <script src="app.js?v=20260711-9"></script>
 </body>
 </html>

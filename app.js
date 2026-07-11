@@ -28,6 +28,12 @@ const elements = {
   aiGeneratedEmpty: document.querySelector("#aiGeneratedEmpty"),
   todayInfo: document.querySelector("#todayInfo"),
   weatherButton: document.querySelector("#weatherButton"),
+  messageAuthor: document.querySelector("#messageAuthorInput"),
+  messageText: document.querySelector("#messageTextInput"),
+  messageSend: document.querySelector("#sendMessageButton"),
+  messageRefresh: document.querySelector("#refreshMessagesButton"),
+  messageStatus: document.querySelector("#messageStatus"),
+  messageList: document.querySelector("#messageList"),
 };
 
 function todayFolderName() {
@@ -171,6 +177,192 @@ function normalizePath(value) {
 function formatBytes(bytes) {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function textToBase64(value) {
+  const bytes = new TextEncoder().encode(value);
+  let binary = "";
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
+}
+
+function base64ToText(value) {
+  const binary = atob(value.replace(/\s/g, ""));
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+function messagePath() {
+  return `messages/${todayFolderName()}.json`;
+}
+
+function localMessageKey() {
+  return `github-photo-drop-messages-${todayFolderName()}`;
+}
+
+function formatMessageTime(value) {
+  return new Date(value).toLocaleString("zh-CN", {
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
+function renderMessages(messages) {
+  elements.messageList.innerHTML = "";
+  if (!messages.length) {
+    elements.messageList.innerHTML = '<div class="empty-state">今天还没有留言</div>';
+    return;
+  }
+
+  messages
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .forEach((message) => {
+      const card = document.createElement("article");
+      card.className = "message-card";
+
+      const meta = document.createElement("div");
+      meta.className = "message-meta";
+
+      const author = document.createElement("strong");
+      author.textContent = message.author || "未署名";
+
+      const time = document.createElement("span");
+      time.textContent = formatMessageTime(message.createdAt);
+
+      const content = document.createElement("p");
+      content.textContent = message.text || "";
+
+      meta.append(author, time);
+      card.append(meta, content);
+      elements.messageList.appendChild(card);
+    });
+}
+
+function localMessages() {
+  return JSON.parse(localStorage.getItem(localMessageKey()) || "[]");
+}
+
+function saveLocalMessages(messages) {
+  localStorage.setItem(localMessageKey(), JSON.stringify(messages));
+}
+
+async function fetchMessageDocument(settings, includeToken = false) {
+  const path = messagePath();
+  const encodedPath = encodeURIComponent(path).replace(/%2F/g, "/");
+  const url = `https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${encodedPath}?ref=${encodeURIComponent(settings.branch)}`;
+  const headers = { Accept: "application/vnd.github+json" };
+  if (includeToken && settings.token) {
+    headers.Authorization = `Bearer ${settings.token}`;
+  }
+  const response = await fetch(`${url}&t=${Date.now()}`, { headers, cache: "no-store" });
+  if (response.status === 404) {
+    return { messages: [], sha: null };
+  }
+  if (!response.ok) {
+    throw new Error(`留言加载失败：GitHub 返回 ${response.status}`);
+  }
+  const document = await response.json();
+  const parsed = JSON.parse(base64ToText(document.content || ""));
+  return {
+    messages: Array.isArray(parsed.messages) ? parsed.messages : [],
+    sha: document.sha,
+  };
+}
+
+async function saveMessagesToGithub(messages, sha, settings) {
+  const path = messagePath();
+  const encodedPath = encodeURIComponent(path).replace(/%2F/g, "/");
+  const body = {
+    message: `Update messages ${todayFolderName()}`,
+    branch: settings.branch,
+    content: textToBase64(JSON.stringify({ date: todayFolderName(), messages }, null, 2)),
+  };
+  if (sha) body.sha = sha;
+
+  const response = await fetch(`https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${encodedPath}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${settings.token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(result.message || `GitHub 返回 ${response.status}`);
+  }
+}
+
+async function loadMessages() {
+  const settings = getSettings();
+  elements.messageStatus.textContent = "正在加载留言";
+  try {
+    const document = await fetchMessageDocument(settings);
+    const merged = [...document.messages, ...localMessages()];
+    renderMessages(merged);
+    elements.messageStatus.textContent = document.messages.length ? `已加载 ${document.messages.length} 条云端留言` : "今天还没有云端留言";
+  } catch (error) {
+    const messages = localMessages();
+    renderMessages(messages);
+    elements.messageStatus.textContent = messages.length
+      ? "云端留言暂时加载失败，已显示当前设备留言"
+      : error.message;
+  }
+}
+
+async function sendMessage() {
+  const text = elements.messageText.value.trim();
+  const author = elements.messageAuthor.value.trim() || "手机端";
+  if (!text) {
+    elements.messageStatus.textContent = "先写一点内容再发送";
+    return;
+  }
+
+  localStorage.setItem("github-photo-drop-message-author", author);
+  elements.messageSend.disabled = true;
+  elements.messageStatus.textContent = "正在保存留言";
+
+  const message = {
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    author,
+    text,
+    createdAt: new Date().toISOString(),
+  };
+  const settings = getSettings();
+
+  try {
+    if (!settings.token || !settings.owner || !settings.repo) {
+      const messages = [...localMessages(), message];
+      saveLocalMessages(messages);
+      renderMessages(messages);
+      elements.messageText.value = "";
+      elements.messageStatus.textContent = "已保存到当前设备；填写 GitHub Token 后可以同步";
+      return;
+    }
+
+    const document = await fetchMessageDocument(settings, true);
+    const messages = [...document.messages, message];
+    await saveMessagesToGithub(messages, document.sha, settings);
+    elements.messageText.value = "";
+    renderMessages(messages);
+    elements.messageStatus.textContent = "已同步到 GitHub";
+  } catch (error) {
+    const messages = [...localMessages(), message];
+    saveLocalMessages(messages);
+    renderMessages(messages);
+    elements.messageText.value = "";
+    elements.messageStatus.textContent = `云端保存失败，已保存到当前设备：${error.message}`;
+  } finally {
+    elements.messageSend.disabled = false;
+  }
 }
 
 function galleryLimit() {
@@ -357,10 +549,14 @@ elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfe
 elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
 elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
 elements.weatherButton.addEventListener("click", loadCurrentWeather);
+elements.messageSend.addEventListener("click", sendMessage);
+elements.messageRefresh.addEventListener("click", loadMessages);
 window.addEventListener("resize", refreshGalleryLimits);
+elements.messageAuthor.value = localStorage.getItem("github-photo-drop-message-author") || "手机端";
 renderTodayInfo();
 loadXiaoshanWeather();
 loadSettings();
+loadMessages();
 loadMobileUploads();
 loadDesktopGallery();
 loadLocalGallery();
