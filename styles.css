@@ -647,13 +647,51 @@ h2 {
   gap: 12px;
 }
 
-.desktop-gallery,
 .mobile-uploaded-gallery,
 .model-gallery,
-.ai-generated-gallery {
+.ai-generated-gallery,
+.desktop-date-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
   gap: 12px;
+}
+
+.desktop-gallery {
+  display: grid;
+  gap: 14px;
+}
+
+.desktop-date-group {
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid rgba(232, 79, 157, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 250, 253, 0.94), rgba(250, 241, 255, 0.9));
+}
+
+.desktop-date-heading {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.desktop-date-heading h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.desktop-date-heading span {
+  border: 1px solid rgba(232, 79, 157, 0.22);
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: var(--pink-strong);
+  background: #fff0f8;
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .desktop-card,

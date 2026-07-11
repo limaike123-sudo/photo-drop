@@ -406,9 +406,9 @@ function applyGalleryLimit(container) {
 }
 
 function refreshGalleryLimits() {
+  document.querySelectorAll(".desktop-date-gallery").forEach((container) => applyGalleryLimit(container));
   [
     elements.mobileUploadedGallery,
-    elements.desktopGallery,
     elements.modelGallery,
     elements.aiGeneratedGallery,
   ].forEach((container) => applyGalleryLimit(container));
@@ -652,7 +652,55 @@ async function loadDesktopGallery() {
     }
     elements.desktopEmpty.hidden = items.length > 0;
 
-    items.forEach((item, index) => {
+    const groups = new Map();
+    items.forEach((item) => {
+      const dateKey = item.date || "未分类";
+      if (!groups.has(dateKey)) groups.set(dateKey, []);
+      groups.get(dateKey).push(item);
+    });
+
+    let cardIndex = 0;
+    groups.forEach((groupItems, dateKey) => {
+      const group = document.createElement("section");
+      group.className = "desktop-date-group";
+
+      const heading = document.createElement("div");
+      heading.className = "desktop-date-heading";
+
+      const title = document.createElement("h3");
+      title.textContent = formatGalleryDateLabel(dateKey);
+
+      const count = document.createElement("span");
+      count.textContent = `${groupItems.length} 张`;
+
+      const gallery = document.createElement("div");
+      gallery.className = "desktop-date-gallery";
+      gallery.dataset.expanded = "false";
+
+      heading.append(title, count);
+      group.append(heading, gallery);
+      elements.desktopGallery.appendChild(group);
+
+      groupItems.forEach((item) => {
+        const card = renderDesktopCard(item, cardIndex);
+        gallery.appendChild(card);
+        cardIndex += 1;
+      });
+      applyGalleryLimit(gallery);
+    });
+  } catch (error) {
+    elements.desktopEmpty.hidden = false;
+    elements.desktopEmpty.textContent = `图片加载失败：${error.message}`;
+  }
+}
+
+function formatGalleryDateLabel(value) {
+  const match = String(value).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (!match) return `${value} 上传`;
+  return `${Number(match[2])}-${Number(match[3])} 上传`;
+}
+
+function renderDesktopCard(item, index) {
       const thumbUrl = item.thumbUrl || item.url;
       const downloadUrl = item.downloadUrl || item.url;
       const safeIndexName = `小麦麦图片 ${String(index + 1).padStart(3, "0")}`;
@@ -678,13 +726,7 @@ async function loadDesktopGallery() {
       link.textContent = "下载原图";
 
       card.append(image, name, date, link);
-      elements.desktopGallery.appendChild(card);
-    });
-    applyGalleryLimit(elements.desktopGallery);
-  } catch (error) {
-    elements.desktopEmpty.hidden = false;
-    elements.desktopEmpty.textContent = `图片加载失败：${error.message}`;
-  }
+      return card;
 }
 
 async function loadLocalGallery() {
