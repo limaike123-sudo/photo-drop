@@ -8,6 +8,8 @@
 - `styles.css`：页面样式
 - `app.js`：GitHub 上传逻辑
 - `sync-photos.ps1`：电脑端自动下载脚本
+- `sync-today-uploads-to-clothes.ps1`：把“今日上传图片”下载到 `D:\Desktop\codex\衣服生图\日期图片`
+- `启动-衣服生图自动同步.bat`：双击后持续自动同步今日上传图到衣服生图
 - `desktop-sync-config.example.json`：电脑端同步配置模板
 
 ## GitHub 准备
@@ -50,3 +52,19 @@ $env:GITHUB_PHOTO_TOKEN="你的GitHubToken"
 ```powershell
 .\sync-photos.ps1
 ```
+
+## 今日上传图同步到衣服生图
+
+只同步一次，把 `uploads/2026-7-11` 这样的今日上传目录下载到 `D:\Desktop\codex\衣服生图\2026-7-11图片`：
+
+```powershell
+.\sync-today-uploads-to-clothes.ps1 -Once
+```
+
+持续自动同步：
+
+```powershell
+.\sync-today-uploads-to-clothes.ps1
+```
+
+也可以直接双击 `启动-衣服生图自动同步.bat`，窗口不关就会每 60 秒自动检查一次今日上传图片。
