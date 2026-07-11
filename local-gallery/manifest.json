@@ -1,23 +1,27 @@
 {
-    "updatedAt":  "2026-07-11T14:16:29",
-    "models":  [
-                   {
-                       "name":  "model-001",
-                       "url":  "local-gallery/models/model-1.jpg"
-                   },
-                   {
-                       "name":  "model-002",
-                       "url":  "local-gallery/models/model-2.jpg"
-                   },
-                   {
-                       "name":  "model-003",
-                       "url":  "local-gallery/models/model-3.jpg"
-                   }
-               ],
-    "aiGenerated":  [
-                        {
-                            "name":  "ai-tryon-001",
-                            "url":  "local-gallery/ai-generated/ai-tryon-001.png"
-                        }
-                    ]
+  "updatedAt": "2026-07-11T13:03:55",
+  "models": [
+    {
+      "name": "model-001",
+      "url": "local-gallery/models/model-1.jpg"
+    },
+    {
+      "name": "model-002",
+      "url": "local-gallery/models/model-2.jpg"
+    },
+    {
+      "name": "model-003",
+      "url": "local-gallery/models/model-3.jpg"
+    },
+    {
+      "name": "model-20260711T130353-01",
+      "url": "local-gallery/models/model-20260711T130353-01.jpeg"
+    }
+  ],
+  "aiGenerated": [
+    {
+      "name": "ai-tryon-001",
+      "url": "local-gallery/ai-generated/ai-tryon-001.png"
+    }
+  ]
 }
