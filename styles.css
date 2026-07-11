@@ -333,6 +333,13 @@ h2 {
   margin-bottom: 14px;
 }
 
+.button-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
 .section-heading.compact {
   margin-top: 16px;
 }
@@ -402,13 +409,15 @@ h2 {
   gap: 12px;
 }
 
-.desktop-gallery {
+.desktop-gallery,
+.mobile-uploaded-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
   gap: 12px;
 }
 
-.desktop-card {
+.desktop-card,
+.mobile-upload-card {
   display: grid;
   gap: 8px;
   padding: 9px;
@@ -417,7 +426,8 @@ h2 {
   background: #fffafd;
 }
 
-.desktop-card img {
+.desktop-card img,
+.mobile-upload-card img {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 7px;
@@ -425,7 +435,8 @@ h2 {
   background: #f6eafa;
 }
 
-.desktop-card strong {
+.desktop-card strong,
+.mobile-upload-card strong {
   min-width: 0;
   overflow: hidden;
   color: var(--ink);
@@ -434,7 +445,8 @@ h2 {
   white-space: nowrap;
 }
 
-.desktop-card a {
+.desktop-card a,
+.mobile-upload-card a {
   min-height: 34px;
   display: grid;
   place-items: center;
@@ -444,6 +456,10 @@ h2 {
   font-size: 13px;
   font-weight: 900;
   text-decoration: none;
+}
+
+.mobile-uploaded-gallery {
+  margin-top: 12px;
 }
 
 .desktop-empty {
@@ -636,7 +652,8 @@ input:focus {
     padding: 14px;
   }
 
-  .desktop-gallery {
+  .desktop-gallery,
+  .mobile-uploaded-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

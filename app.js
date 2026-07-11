@@ -19,6 +19,8 @@ const elements = {
   desktopGallery: document.querySelector("#desktopGallery"),
   desktopEmpty: document.querySelector("#desktopEmpty"),
   refreshDesktopGallery: document.querySelector("#refreshDesktopGalleryButton"),
+  mobileUploadedGallery: document.querySelector("#mobileUploadedGallery"),
+  refreshMobileUploads: document.querySelector("#refreshMobileUploadsButton"),
 };
 
 function todayFolderName() {
@@ -29,8 +31,8 @@ function todayFolderName() {
 function loadSettings() {
   const saved = JSON.parse(localStorage.getItem(settingsKey) || "{}");
   elements.token.value = saved.token || "";
-  elements.owner.value = saved.owner || "";
-  elements.repo.value = saved.repo || "";
+  elements.owner.value = saved.owner || "limaike123-sudo";
+  elements.repo.value = saved.repo || "photo-drop";
   elements.branch.value = saved.branch || "main";
   elements.path.value = saved.path || "uploads";
   updateTodayNote();
@@ -155,6 +157,7 @@ async function uploadQueue() {
     try {
       await uploadItem(item, settings);
       item.done = true;
+      await loadMobileUploads();
     } catch (error) {
       const status = item.element.querySelector(".item-status");
       status.className = "item-status error";
@@ -187,8 +190,73 @@ elements.input.addEventListener("change", (event) => addFiles(event.target.files
 
 elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfer.files));
 elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
+elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
 loadSettings();
+loadMobileUploads();
 loadDesktopGallery();
+
+async function loadMobileUploads() {
+  const settings = getSettings();
+  const folder = `${settings.path}/${todayFolderName()}`;
+  const apiPath = encodeURIComponent(folder).replace(/%2F/g, "/");
+  const apiUrl = `https://api.github.com/repos/${settings.owner}/${settings.repo}/contents/${apiPath}?ref=${encodeURIComponent(settings.branch)}`;
+  elements.mobileUploadedGallery.innerHTML = "";
+
+  try {
+    const response = await fetch(`${apiUrl}&t=${Date.now()}`, {
+      headers: { Accept: "application/vnd.github+json" },
+      cache: "no-store",
+    });
+    if (response.status === 404) {
+      if (!queue.length) {
+        elements.empty.hidden = false;
+        elements.empty.textContent = "今天还没有手机端上传图片";
+      }
+      return;
+    }
+    if (!response.ok) {
+      throw new Error(`GitHub 返回 ${response.status}`);
+    }
+
+    const items = await response.json();
+    const images = Array.isArray(items)
+      ? items.filter((item) => item.type === "file" && /\.(jpg|jpeg|png|gif|webp|bmp|tif|tiff|heic)$/i.test(item.name))
+      : [];
+
+    if (!queue.length) {
+      elements.empty.hidden = images.length > 0;
+      elements.empty.textContent = images.length ? "" : "今天还没有手机端上传图片";
+    }
+
+    images
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = "mobile-upload-card";
+
+        const image = document.createElement("img");
+        image.src = item.download_url;
+        image.alt = item.name;
+        image.loading = "lazy";
+
+        const name = document.createElement("strong");
+        name.textContent = `手机上传 ${String(index + 1).padStart(3, "0")}`;
+
+        const link = document.createElement("a");
+        link.href = item.download_url;
+        link.download = item.name;
+        link.textContent = "下载";
+
+        card.append(image, name, link);
+        elements.mobileUploadedGallery.appendChild(card);
+      });
+  } catch (error) {
+    if (!queue.length) {
+      elements.empty.hidden = false;
+      elements.empty.textContent = `手机端图片加载失败：${error.message}`;
+    }
+  }
+}
 
 async function loadDesktopGallery() {
   elements.desktopEmpty.hidden = false;

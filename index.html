@@ -48,13 +48,17 @@
     <section class="panel queue-panel" aria-label="上传队列">
       <div class="section-heading">
         <div>
-          <h2>今日图片</h2>
+          <h2>今日上传图片</h2>
           <p class="section-note" id="todayFolderNote"></p>
         </div>
-        <button class="text-button" id="uploadButton" type="button">开始上传</button>
+        <div class="button-row">
+          <button class="text-button subtle" id="refreshMobileUploadsButton" type="button">刷新</button>
+          <button class="text-button" id="uploadButton" type="button">开始上传</button>
+        </div>
       </div>
       <div class="empty-state" id="emptyState">还没有选择图片</div>
       <div class="queue" id="queue"></div>
+      <div class="mobile-uploaded-gallery" id="mobileUploadedGallery"></div>
     </section>
 
     <section class="panel desktop-gallery-panel" aria-label="小麦麦操作的图片">
