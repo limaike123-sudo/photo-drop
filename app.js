@@ -26,11 +26,83 @@ const elements = {
   modelEmpty: document.querySelector("#modelEmpty"),
   aiGeneratedGallery: document.querySelector("#aiGeneratedGallery"),
   aiGeneratedEmpty: document.querySelector("#aiGeneratedEmpty"),
+  todayInfo: document.querySelector("#todayInfo"),
+  weatherButton: document.querySelector("#weatherButton"),
 };
 
 function todayFolderName() {
   const now = new Date();
   return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+}
+
+function renderTodayInfo() {
+  const now = new Date();
+  const weekdays = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  elements.todayInfo.textContent = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 · ${weekdays[now.getDay()]}`;
+}
+
+const weatherTextByCode = {
+  0: "晴",
+  1: "大致晴",
+  2: "局部多云",
+  3: "阴",
+  45: "有雾",
+  48: "有雾",
+  51: "小毛毛雨",
+  53: "毛毛雨",
+  55: "大毛毛雨",
+  61: "小雨",
+  63: "中雨",
+  65: "大雨",
+  71: "小雪",
+  73: "中雪",
+  75: "大雪",
+  80: "阵雨",
+  81: "阵雨",
+  82: "强阵雨",
+  95: "雷雨",
+  96: "雷雨",
+  99: "强雷雨",
+};
+
+async function loadWeather() {
+  if (!navigator.geolocation) {
+    elements.weatherButton.textContent = "当前浏览器不支持天气";
+    return;
+  }
+
+  elements.weatherButton.disabled = true;
+  elements.weatherButton.textContent = "获取天气中";
+
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    try {
+      const { latitude, longitude } = position.coords;
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.searchParams.set("latitude", latitude);
+      url.searchParams.set("longitude", longitude);
+      url.searchParams.set("current", "temperature_2m,weather_code");
+      url.searchParams.set("timezone", "auto");
+      const response = await fetch(url.href);
+      if (!response.ok) throw new Error("天气加载失败");
+      const data = await response.json();
+      const current = data.current || {};
+      const weatherText = weatherTextByCode[current.weather_code] || "天气";
+      const temperature = Math.round(Number(current.temperature_2m));
+      elements.weatherButton.textContent = Number.isFinite(temperature)
+        ? `${weatherText} · ${temperature}°C`
+        : weatherText;
+    } catch (error) {
+      elements.weatherButton.textContent = error.message || "天气加载失败";
+      elements.weatherButton.disabled = false;
+    }
+  }, () => {
+    elements.weatherButton.textContent = "允许定位后显示天气";
+    elements.weatherButton.disabled = false;
+  }, {
+    enableHighAccuracy: false,
+    maximumAge: 10 * 60 * 1000,
+    timeout: 10000,
+  });
 }
 
 function loadSettings() {
@@ -214,6 +286,8 @@ elements.input.addEventListener("change", (event) => addFiles(event.target.files
 elements.dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfer.files));
 elements.refreshDesktopGallery.addEventListener("click", loadDesktopGallery);
 elements.refreshMobileUploads.addEventListener("click", loadMobileUploads);
+elements.weatherButton.addEventListener("click", loadWeather);
+renderTodayInfo();
 loadSettings();
 loadMobileUploads();
 loadDesktopGallery();
