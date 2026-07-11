@@ -1,5 +1,6 @@
 const settingsKey = "github-photo-drop-settings";
 const queue = [];
+let isUploading = false;
 
 const elements = {
   token: document.querySelector("#tokenInput"),
@@ -95,6 +96,14 @@ function addFiles(fileList) {
     elements.queue.appendChild(item.element);
   });
   elements.empty.hidden = queue.length > 0;
+  const settings = getSettings();
+  if (settings.token && settings.owner && settings.repo) {
+    uploadQueue();
+  } else {
+    queue.filter((item) => !item.done).forEach((item) => {
+      item.element.querySelector(".item-status").textContent = "请先填写上传设置，再点开始上传";
+    });
+  }
 }
 
 function readFileAsBase64(file) {
@@ -145,6 +154,7 @@ async function uploadItem(item, settings) {
 }
 
 async function uploadQueue() {
+  if (isUploading) return;
   saveSettings();
   const settings = getSettings();
   if (!settings.token || !settings.owner || !settings.repo) {
@@ -152,17 +162,26 @@ async function uploadQueue() {
     return;
   }
 
+  isUploading = true;
+  elements.upload.textContent = "上传中";
+  elements.upload.disabled = true;
   const pending = queue.filter((item) => !item.done);
-  for (const item of pending) {
-    try {
-      await uploadItem(item, settings);
-      item.done = true;
-      await loadMobileUploads();
-    } catch (error) {
-      const status = item.element.querySelector(".item-status");
-      status.className = "item-status error";
-      status.textContent = error.message;
+  try {
+    for (const item of pending) {
+      try {
+        await uploadItem(item, settings);
+        item.done = true;
+        await loadMobileUploads();
+      } catch (error) {
+        const status = item.element.querySelector(".item-status");
+        status.className = "item-status error";
+        status.textContent = error.message;
+      }
     }
+  } finally {
+    isUploading = false;
+    elements.upload.textContent = "开始上传";
+    elements.upload.disabled = false;
   }
 }
 
