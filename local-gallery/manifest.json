@@ -1,5 +1,5 @@
 {
-    "updatedAt":  "2026-07-12T09:10:00",
+    "updatedAt":  "2026-07-13T09:30:00",
     "models":  [
                    {
                        "name":  "model-001",
@@ -19,6 +19,36 @@
                    }
                ],
     "aiGenerated":  [
+                        {
+                            "name":  "model-a-outfit-001",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-001.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-001.jpg"
+                        },
+                        {
+                            "name":  "model-a-outfit-002",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-002.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-002.jpg"
+                        },
+                        {
+                            "name":  "model-a-outfit-003",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-003.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-003.jpg"
+                        },
+                        {
+                            "name":  "model-b-outfit-001",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-001.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-001.jpg"
+                        },
+                        {
+                            "name":  "model-b-outfit-002",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-002.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-002.jpg"
+                        },
+                        {
+                            "name":  "model-b-outfit-003",
+                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-003.png",
+                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-003.jpg"
+                        },
                         {
                             "name":  "ai-model-001",
                             "url":  "local-gallery/ai-generated/2026-7-11/ai-model-001.png",
