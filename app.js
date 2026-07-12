@@ -849,9 +849,11 @@ function renderLocalCards(container, emptyElement, items, label) {
   items.forEach((item, index) => {
     const card = document.createElement("article");
     card.className = "local-card";
+    const previewUrl = item.thumbUrl || item.url;
+    const downloadUrl = item.url;
 
     const image = document.createElement("img");
-    image.src = new URL(item.url, document.baseURI).href;
+    image.src = new URL(previewUrl, document.baseURI).href;
     image.alt = item.name || `${label} ${index + 1}`;
     image.loading = "lazy";
 
@@ -859,7 +861,7 @@ function renderLocalCards(container, emptyElement, items, label) {
     name.textContent = `${label} ${String(index + 1).padStart(3, "0")}`;
 
     const link = document.createElement("a");
-    link.href = image.src;
+    link.href = new URL(downloadUrl, document.baseURI).href;
     link.download = item.name || `${label}-${index + 1}`;
     link.textContent = "下载";
 
