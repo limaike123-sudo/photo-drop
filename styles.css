@@ -717,6 +717,18 @@ h2 {
   box-shadow: inset 0 0 0 1px rgba(54, 32, 77, 0.04);
 }
 
+.ai-generated-gallery {
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+}
+
+.ai-generated-gallery .local-card img {
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  padding: 6px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(250, 238, 255, 0.9));
+}
+
 .desktop-card strong,
 .mobile-upload-card strong,
 .local-card strong {
@@ -1065,6 +1077,11 @@ textarea:focus {
   .model-gallery,
   .ai-generated-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-generated-gallery .local-card img {
+    aspect-ratio: 2 / 3;
+    padding: 4px;
   }
 
   .message-form {
