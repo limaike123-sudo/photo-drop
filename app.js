@@ -376,6 +376,10 @@ function galleryLimit(container) {
 }
 
 function applyGalleryLimit(container) {
+  if (container.classList.contains("has-date-groups")) {
+    return;
+  }
+
   const cards = [...container.children];
   const limit = galleryLimit(container);
   const needsToggle = cards.length > limit;
@@ -742,7 +746,7 @@ async function loadLocalGallery() {
     if (!response.ok) return;
     const manifest = await response.json();
     renderLocalCards(elements.modelGallery, elements.modelEmpty, manifest.models || [], "模特");
-    renderLocalCards(elements.aiGeneratedGallery, elements.aiGeneratedEmpty, manifest.aiGenerated || [], "AI试衣图");
+    renderLocalCardsByDate(elements.aiGeneratedGallery, elements.aiGeneratedEmpty, manifest.aiGenerated || [], "AI试衣图");
   } catch {
     elements.modelEmpty.hidden = false;
     elements.aiGeneratedEmpty.hidden = false;
@@ -844,9 +848,71 @@ async function uploadModelFiles(files) {
 
 function renderLocalCards(container, emptyElement, items, label) {
   container.innerHTML = "";
+  container.classList.remove("has-date-groups");
   container.dataset.expanded = "false";
   emptyElement.hidden = items.length > 0;
   items.forEach((item, index) => {
+    const card = renderLocalCard(item, index, label);
+    container.appendChild(card);
+  });
+  applyGalleryLimit(container);
+}
+
+function renderLocalCardsByDate(container, emptyElement, items, label) {
+  container.innerHTML = "";
+  container.classList.add("has-date-groups");
+  container.dataset.expanded = "true";
+  emptyElement.hidden = items.length > 0;
+
+  const groups = new Map();
+  items.forEach((item) => {
+    const dateKey = localItemDate(item);
+    if (!groups.has(dateKey)) groups.set(dateKey, []);
+    groups.get(dateKey).push(item);
+  });
+
+  const sortedGroups = [...groups.entries()].sort(([dateA], [dateB]) => {
+    return dateB.localeCompare(dateA, undefined, { numeric: true });
+  });
+
+  let cardIndex = 0;
+  sortedGroups.forEach(([dateKey, groupItems]) => {
+    const group = document.createElement("section");
+    group.className = "desktop-date-group local-date-group";
+
+    const heading = document.createElement("div");
+    heading.className = "desktop-date-heading";
+
+    const title = document.createElement("h3");
+    title.textContent = formatGalleryDateLabel(dateKey);
+
+    const count = document.createElement("span");
+    count.textContent = `${groupItems.length} 张`;
+
+    const gallery = document.createElement("div");
+    gallery.className = "desktop-date-gallery ai-date-gallery";
+    gallery.dataset.expanded = "false";
+
+    heading.append(title, count);
+    group.append(heading, gallery);
+    container.appendChild(group);
+
+    groupItems.forEach((item) => {
+      const card = renderLocalCard(item, cardIndex, label);
+      gallery.appendChild(card);
+      cardIndex += 1;
+    });
+    applyGalleryLimit(gallery);
+  });
+}
+
+function localItemDate(item) {
+  const source = `${item.url || ""} ${item.thumbUrl || ""}`;
+  const match = source.match(/\/(\d{4}-\d{1,2}-\d{1,2})(?:\/|$)/);
+  return match ? match[1] : "未分类";
+}
+
+function renderLocalCard(item, index, label) {
     const card = document.createElement("article");
     card.className = "local-card";
     const previewUrl = item.thumbUrl || item.url;
@@ -866,7 +932,5 @@ function renderLocalCards(container, emptyElement, items, label) {
     link.textContent = "下载";
 
     card.append(image, name, link);
-    container.appendChild(card);
-  });
-  applyGalleryLimit(container);
+    return card;
 }
