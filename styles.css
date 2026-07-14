@@ -721,6 +721,22 @@ h2 {
   grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
 }
 
+.ai-generated-gallery.has-date-groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.ai-generated-gallery.has-date-groups .local-date-group {
+  width: 100%;
+}
+
+.ai-date-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 12px;
+}
+
 .ai-generated-gallery .local-card img {
   aspect-ratio: 3 / 4;
   object-fit: contain;
@@ -1076,6 +1092,14 @@ textarea:focus {
   .mobile-uploaded-gallery,
   .model-gallery,
   .ai-generated-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-generated-gallery.has-date-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-date-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
