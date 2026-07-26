@@ -1,134 +1,178 @@
-﻿{
-    "updatedAt":  "2026-07-14T14:57:42",
-    "models":  [
-                   {
-                       "name":  "model-001",
-                       "url":  "local-gallery/models/model-1.jpg"
-                   },
-                   {
-                       "name":  "model-002",
-                       "url":  "local-gallery/models/model-2.jpg"
-                   },
-                   {
-                       "name":  "model-003",
-                       "url":  "local-gallery/models/model-3.jpg"
-                   },
-                   {
-                       "name":  "model-20260711T130353-01",
-                       "url":  "local-gallery/models/model-20260711T130353-01.jpeg"
-                   },
-                   {
-                       "name":  "model-20260713T083334-01",
-                       "url":  "local-gallery/models/model-20260713T083334-01.jpeg"
-                   },
-                   {
-                       "name":  "model-20260714T024737-01",
-                       "url":  "local-gallery/models/model-20260714T024737-01.jpeg"
-                   },
-                   {
-                       "name":  "model-20260714T024740-02",
-                       "url":  "local-gallery/models/model-20260714T024740-02.jpeg"
-                   },
-                   {
-                       "name":  "model-20260714T024743-03",
-                       "url":  "local-gallery/models/model-20260714T024743-03.jpeg"
-                   }
-               ],
-    "aiGenerated":  [
-                        {
-                            "name":  "model2-20260714-001",
-                            "url":  "local-gallery/ai-generated/2026-7-14/model2-20260714-001.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-001.jpg"
-                        },
-                        {
-                            "name":  "model2-20260714-002",
-                            "url":  "local-gallery/ai-generated/2026-7-14/model2-20260714-002.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-002.jpg"
-                        },
-                        {
-                            "name":  "model2-20260714-003",
-                            "url":  "local-gallery/ai-generated/2026-7-14/model2-20260714-003.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-003.jpg"
-                        },
-                        {
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-20260713-001.png",
-                            "name":  "model-a-20260713-001",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-20260713-001.jpg"
-                        },
-                        {
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-20260713-002.png",
-                            "name":  "model-a-20260713-002",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-20260713-002.jpg"
-                        },
-                        {
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-20260713-001.png",
-                            "name":  "model-b-20260713-001",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-20260713-001.jpg"
-                        },
-                        {
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-20260713-002.png",
-                            "name":  "model-b-20260713-002",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-20260713-002.jpg"
-                        },
-                        {
-                            "name":  "model-a-outfit-001",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-001.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-001.jpg"
-                        },
-                        {
-                            "name":  "model-a-outfit-002",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-002.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-002.jpg"
-                        },
-                        {
-                            "name":  "model-a-outfit-003",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-a-outfit-003.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-003.jpg"
-                        },
-                        {
-                            "name":  "model-b-outfit-001",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-001.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-001.jpg"
-                        },
-                        {
-                            "name":  "model-b-outfit-002",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-002.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-002.jpg"
-                        },
-                        {
-                            "name":  "model-b-outfit-003",
-                            "url":  "local-gallery/ai-generated/2026-7-13/model-b-outfit-003.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-003.jpg"
-                        },
-                        {
-                            "name":  "ai-model-001",
-                            "url":  "local-gallery/ai-generated/2026-7-11/ai-model-001.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-001.jpg"
-                        },
-                        {
-                            "name":  "ai-model-002",
-                            "url":  "local-gallery/ai-generated/2026-7-11/ai-model-002.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-002.jpg"
-                        },
-                        {
-                            "name":  "ai-model-003",
-                            "url":  "local-gallery/ai-generated/2026-7-11/ai-model-003.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-003.jpg"
-                        },
-                        {
-                            "name":  "ai-model-004",
-                            "url":  "local-gallery/ai-generated/2026-7-11/ai-model-004.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-004.jpg"
-                        },
-                        {
-                            "name":  "ai-model-005",
-                            "url":  "local-gallery/ai-generated/2026-7-11/ai-model-005.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-005.jpg"
-                        },
-                        {
-                            "name":  "ai-tryon-001",
-                            "url":  "local-gallery/ai-generated/ai-tryon-001.png",
-                            "thumbUrl":  "local-gallery/thumbs/ai-generated/ai-tryon-001.jpg"
-                        }
-                    ]
+{
+  "updatedAt": "2026-07-26T07:43:53",
+  "models": [
+    {
+      "name": "model-001",
+      "url": "local-gallery/models/model-1.jpg"
+    },
+    {
+      "name": "model-002",
+      "url": "local-gallery/models/model-2.jpg"
+    },
+    {
+      "name": "model-003",
+      "url": "local-gallery/models/model-3.jpg"
+    },
+    {
+      "name": "model-20260711T130353-01",
+      "url": "local-gallery/models/model-20260711T130353-01.jpeg"
+    },
+    {
+      "name": "model-20260713T083334-01",
+      "url": "local-gallery/models/model-20260713T083334-01.jpeg"
+    },
+    {
+      "name": "model-20260714T024737-01",
+      "url": "local-gallery/models/model-20260714T024737-01.jpeg"
+    },
+    {
+      "name": "model-20260714T024740-02",
+      "url": "local-gallery/models/model-20260714T024740-02.jpeg"
+    },
+    {
+      "name": "model-20260714T024743-03",
+      "url": "local-gallery/models/model-20260714T024743-03.jpeg"
+    },
+    {
+      "name": "model-20260726T074307-01",
+      "url": "local-gallery/models/model-20260726T074307-01.jpeg"
+    },
+    {
+      "name": "model-20260726T074309-02",
+      "url": "local-gallery/models/model-20260726T074309-02.jpeg"
+    },
+    {
+      "name": "model-20260726T074311-03",
+      "url": "local-gallery/models/model-20260726T074311-03.jpeg"
+    },
+    {
+      "name": "model-20260726T074313-04",
+      "url": "local-gallery/models/model-20260726T074313-04.jpeg"
+    },
+    {
+      "name": "model-20260726T074315-05",
+      "url": "local-gallery/models/model-20260726T074315-05.jpeg"
+    },
+    {
+      "name": "model-20260726T074318-06",
+      "url": "local-gallery/models/model-20260726T074318-06.jpeg"
+    },
+    {
+      "name": "model-20260726T074319-07",
+      "url": "local-gallery/models/model-20260726T074319-07.jpeg"
+    },
+    {
+      "name": "model-20260726T074321-08",
+      "url": "local-gallery/models/model-20260726T074321-08.jpeg"
+    },
+    {
+      "name": "model-20260726T074322-09",
+      "url": "local-gallery/models/model-20260726T074322-09.jpeg"
+    },
+    {
+      "name": "model-20260726T074324-10",
+      "url": "local-gallery/models/model-20260726T074324-10.jpeg"
+    },
+    {
+      "name": "model-20260726T074350-11",
+      "url": "local-gallery/models/model-20260726T074350-11.jpeg"
+    }
+  ],
+  "aiGenerated": [
+    {
+      "name": "model2-20260714-001",
+      "url": "local-gallery/ai-generated/2026-7-14/model2-20260714-001.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-001.jpg"
+    },
+    {
+      "name": "model2-20260714-002",
+      "url": "local-gallery/ai-generated/2026-7-14/model2-20260714-002.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-002.jpg"
+    },
+    {
+      "name": "model2-20260714-003",
+      "url": "local-gallery/ai-generated/2026-7-14/model2-20260714-003.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-14/model2-20260714-003.jpg"
+    },
+    {
+      "url": "local-gallery/ai-generated/2026-7-13/model-a-20260713-001.png",
+      "name": "model-a-20260713-001",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-a-20260713-001.jpg"
+    },
+    {
+      "url": "local-gallery/ai-generated/2026-7-13/model-a-20260713-002.png",
+      "name": "model-a-20260713-002",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-a-20260713-002.jpg"
+    },
+    {
+      "url": "local-gallery/ai-generated/2026-7-13/model-b-20260713-001.png",
+      "name": "model-b-20260713-001",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-b-20260713-001.jpg"
+    },
+    {
+      "url": "local-gallery/ai-generated/2026-7-13/model-b-20260713-002.png",
+      "name": "model-b-20260713-002",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-b-20260713-002.jpg"
+    },
+    {
+      "name": "model-a-outfit-001",
+      "url": "local-gallery/ai-generated/2026-7-13/model-a-outfit-001.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-001.jpg"
+    },
+    {
+      "name": "model-a-outfit-002",
+      "url": "local-gallery/ai-generated/2026-7-13/model-a-outfit-002.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-002.jpg"
+    },
+    {
+      "name": "model-a-outfit-003",
+      "url": "local-gallery/ai-generated/2026-7-13/model-a-outfit-003.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-a-outfit-003.jpg"
+    },
+    {
+      "name": "model-b-outfit-001",
+      "url": "local-gallery/ai-generated/2026-7-13/model-b-outfit-001.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-001.jpg"
+    },
+    {
+      "name": "model-b-outfit-002",
+      "url": "local-gallery/ai-generated/2026-7-13/model-b-outfit-002.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-002.jpg"
+    },
+    {
+      "name": "model-b-outfit-003",
+      "url": "local-gallery/ai-generated/2026-7-13/model-b-outfit-003.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-13/model-b-outfit-003.jpg"
+    },
+    {
+      "name": "ai-model-001",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-001.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-001.jpg"
+    },
+    {
+      "name": "ai-model-002",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-002.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-002.jpg"
+    },
+    {
+      "name": "ai-model-003",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-003.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-003.jpg"
+    },
+    {
+      "name": "ai-model-004",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-004.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-004.jpg"
+    },
+    {
+      "name": "ai-model-005",
+      "url": "local-gallery/ai-generated/2026-7-11/ai-model-005.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/2026-7-11/ai-model-005.jpg"
+    },
+    {
+      "name": "ai-tryon-001",
+      "url": "local-gallery/ai-generated/ai-tryon-001.png",
+      "thumbUrl": "local-gallery/thumbs/ai-generated/ai-tryon-001.jpg"
+    }
+  ]
 }
